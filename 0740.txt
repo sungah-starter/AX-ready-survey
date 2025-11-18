@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <!-- 기본 메타 태그 (가장 먼저 위치) -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 협업 리더 역량 진단 | 멀티캠퍼스</title>
+  
+  <!-- Open Graph 메타 태그 (카카오톡, 페이스북 등) -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ai-leader-survey-fin.pages.dev">
+  <meta property="og:site_name" content="멀티캠퍼스">
+  <meta property="og:title" content="WORK WITH AI | 멀티캠퍼스">
+  <meta property="og:description" content="일하는 방식의 변화, 멀티캠퍼스에서 확인하세요.">
+  <meta property="og:image" content="https://ai-leader-survey-fin.pages.dev/preview-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  
+  <!-- 트위터 카드 -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="WORK WITH AI | 멀티캠퍼스">
+  <meta name="twitter:description" content="일하는 방식의 변화, 멀티캠퍼스에서 확인하세요.">
+  <meta name="twitter:image" content="https://ai-leader-survey-fin.pages.dev/preview-image.jpg">
+  
+  <!-- 카카오톡 전용 메타 태그 -->
+  <meta property="kakao:title" content="WORK WITH AI | 멀티캠퍼스">
+  <meta property="kakao:description" content="일하는 방식의 변화, 멀티캠퍼스에서 확인하세요.">
+  <meta property="kakao:image" content="https://ai-leader-survey-fin.pages.dev/preview-image.jpg">
+    
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Tailwind Config (CDN 로드 후 실행) -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {}
+      },
+      plugins: [],
+    }
+  </script>
+  
+  <!-- 소스 코드 보호 기능 (기존 유지) -->
+  <script>
+    document.addEventListener('contextmenu', function(e) { e.preventDefault(); return false; });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C' || e.key === 'J')) || (e.ctrlKey && (e.key === 'u' || e.key === 's'))) {
+        e.preventDefault(); return false;
+      }
+    });
+    document.addEventListener('selectstart', function(e) { e.preventDefault(); return false; });
+    document.addEventListener('dragstart', function(e) { e.preventDefault(); return false; });
+  </script>
+
+  <style>
+    * {
+      -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
+    }
+    :root { font-family: 'Noto Sans KR', sans-serif; }
+    body { font-size: 16px; line-height: 1.6; color: #333; }
+    .rating-input { display: none; }
+    .rating-label {
+      min-width: calc(20% - 0.5rem); flex-basis: auto; display: flex; flex-direction: column; 
+      align-items: center; justify-content: space-between; cursor: pointer; padding: 0.75rem 0.25rem; 
+      min-height: 90px; border-radius: 0.75rem; transition: all 0.2s ease-in-out; 
+      text-align: center; margin: 0.25rem; border: none; background-color: transparent; box-shadow: none;
+    }
+    @media (max-width: 640px) {
+      .rating-label { min-width: calc(50% - 0.5rem); min-height: 80px; }
+      .rating-score-text { font-size: 0.8rem; }
+    }
+    @media (max-width: 480px) {
+      .rating-label { min-width: calc(100% - 0.5rem); min-height: 70px; }
+      .rating-score-text { font-size: 0.9rem; }
+    }
+    .rating-label:hover { background-color: transparent; transform: none; }
+    .rating-label:hover .rating-score-text { color: #64748b; }
+    .rating-circle {
+      width: 1.25rem; height: 1.25rem; border-radius: 9999px; border-width: 2px; 
+      border-color: #94a3b8; background-color: #ffffff; display: block; 
+      margin-bottom: 0.5rem; transition: all 0.15s ease-in-out;
+    }
+    .rating-score-text {
+      font-size: 0.875rem; font-weight: 500; color: #4b5563;
+      line-height: 1.3; transition: all 0.15s ease-in-out;
+    }
+    .rating-score-number { font-weight: 700; margin-right: 0.15rem; color: #4f46e5; }
+    .rating-input:checked + .rating-label { background-color: transparent; transform: none; box-shadow: none; }
+    .rating-input:checked + .rating-label .rating-circle {
+      background-color: #4f46e5; border-color: #4f46e5; transform: scale(1.1); 
+    }
+    .rating-input:checked + .rating-label .rating-score-text { font-weight: 700; color: #3730a3; }
+    .rating-input:checked + .rating-label .rating-score-number { color: #3730a3; }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen p-4 sm:p-8">
+  <div id="app" class="max-w-4xl mx-auto bg-white shadow-xl rounded-2xl p-6 sm:p-10">
+    
+    <header class="text-center mb-10 border-b pb-6 border-gray-200">
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-800 mb-2 leading-tight">
+        AI 협업 리더 준비도 (Readiness) 진단
+      </h1>
+      <p class="text-gray-600 text-lg sm:text-xl">
+        리더님의 현재 위치를 파악하고, 교육에서 무엇에 집중할지 확인해 보세요.
+      </p>
+      <p class="text-sm text-gray-500 mt-4 max-w-2xl mx-auto">
+        *본 진단은 Wharton의 AI Readiness Quotient (AI-RQ) 조사 자료 및 글로벌 컨설팅 펌(BCG, McKinsey)의 AI 전환을 위한 리더의 역할 관련 연구 결과를 종합하여 제작했습니다.
+      </p>
+    </header>
+
+    <form id="assessmentForm">
+      
+      <!-- === 신규: 직무 그룹 선택 === -->
+      <div class="mb-10 p-5 sm:p-6 bg-indigo-50 border-2 border-indigo-200 rounded-xl shadow-inner">
+        <label for="q_job_group" class="block text-lg sm:text-xl font-semibold text-indigo-900 mb-4">
+          Q0. 귀하의 현재 직무와 가장 가까운 그룹을 선택해 주세요.
+        </label>
+        <select id="q_job_group" name="q_job_group" class="w-full p-3 border border-indigo-300 rounded-lg text-base sm:text-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm" required>
+          <option value="">-- 직무 그룹을 선택하세요 --</option>
+          <!-- [FIX 1] "이무" -> "총무" 오타 수정 -->
+          <option value="A">A. 전략/지원 그룹 (기획, 인사, 재무, 총무 등)</option>
+          <option value="B">B. 고객 접점 그룹 (영업, 마케팅, 홍보, CS 등)</option>
+          <option value="C">C. 기술/제품 그룹 (개발, R&D, 설계, 품질 등)</option>
+          <option value="D">D. 현장/운영 그룹 (생산, 물류, 구매, 시설관리 등)</option>
+        </select>
+      </div>
+      <!-- === 신규: 직무 그룹 선택 끝 === -->
+
+      <div id="questionsContainer" class="space-y-8"></div>
+
+      <div class="mt-12">
+        <div id="statusMessage" class="hidden p-3 mb-4 rounded-lg text-center font-semibold text-sm"></div>
+
+        <button type="submit" id="submitButton"
+          class="w-full bg-slate-700 hover:bg-slate-800 text-white font-bold py-3 sm:py-4 px-4 rounded-lg transition duration-300 shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-slate-500 focus:ring-opacity-50 text-lg">
+          진단 결과 확인하기
+        </button>
+      </div>
+    </form>
+
+    <!-- === 수정: 결과 표시 컨테이너 === -->
+    <div id="resultsContainer" class="hidden mt-16 pt-8 border-t-4 border-slate-300">
+      <h2 class="text-3xl sm:text-4xl font-bold text-slate-700 mb-6 text-center">종합 진단 결과</h2>
+      
+      <!-- 종합 점수판 -->
+      <div id="scoreSummary" class="bg-white border-4 border-indigo-400 rounded-xl shadow-2xl p-6 sm:p-8 text-center mb-12 transition hover:shadow-xl">
+        <!-- JS로 내용 채워짐 -->
+      </div>
+      
+      <h3 class="text-2xl sm:text-3xl font-bold text-slate-700 mb-8 text-center border-t pt-8">
+        영역별 상세 피드백 및 교육 주안점
+      </h3>
+      
+      <!-- 4개 카테고리별 상세 피드백 -->
+      <div id="feedbackDetails" class="space-y-8 mt-10">
+        <!-- JS로 내용 채워짐 -->
+      </div>
+
+      <!-- 직무별 맞춤형 가이드 -->
+      <div id="jobSpecificFeedback" class="hidden mt-10">
+         <h3 class="text-2xl sm:text-3xl font-bold text-indigo-700 mb-6 text-center border-t pt-8">
+           🚀 직무 그룹 맞춤형 가이드
+         </h3>
+         <div id="jobSpecificFeedbackContent" class="bg-indigo-50 border-l-4 border-indigo-500 p-5 sm:p-6 rounded-r-lg shadow-md">
+           <!-- JS로 내용 채워짐 -->
+         </div>
+      </div>
+
+      <div class="mt-12 text-center space-x-2 sm:space-x-4">
+        <button id="goBackButton"
+          class="bg-slate-700 hover:bg-slate-800 text-white font-bold py-3 px-4 sm:px-6 rounded-lg transition duration-300 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-opacity-50 text-base sm:text-lg">
+          응답 확인 및 수정하기
+        </button>
+        <button id="restartButton"
+          class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 px-4 sm:px-6 rounded-lg transition duration-300 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-opacity-50 text-base sm:text-lg">
+          설문 다시 시작하기
+        </button>
+      </div>
+      
+      <div class="mt-8 text-center text-gray-600 border-t pt-4">
+        <p class="font-medium text-sm sm:text-base">본 결과는 교육 집중 영역을 안내하며, 절대적인 평가 기준이 아님을 알려드립니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // === 1. Google Sheets 연동 URL ===
+    // [FIX] 사용자가 업로드한 새 URL을 적용합니다.
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyZfJFJ0A-fMLhaEI6FK0gDLwqfMNUFMb_sVlOf1oGAWusXF4NkpJ-RScmfe5uxw5Kk/exec';
+
+    // === 2. 신규: 4개 카테고리 25개 문항 (변경 없음) ===
+    const surveyData = [
+      {
+        id: 'I',
+        title: 'I. 리더의 AI 활용 경험 (AI Practical Competency)',
+        questions: [
+          "나는 업무 수행 과정(이메일, 기획, 요약 등)에서 생성형 AI를 일상적이고 빈번하게 활용하고 있다.",
+          "단순 텍스트 생성 외에도 이미지, 데이터 분석, 번역 등 다양한 AI 기능을 업무 목적에 맞게 복합적으로 활용한다.",
+          "AI에게 업무를 지시할 때, 모호하게 말하지 않고 구체적인 배경, 조건, 예시를 포함하여 프롬프트를 작성하는 편이다.",
+          "AI가 생성한 결과물의 사실 여부를 반드시 검증하고, 내 경험과 인사이트를 더해 내용을 재가공해서 사용한다.",
+          "우리 팀원에게 생성형 AI가 무엇이고, 우리 업무 중 어디에 적용 가능한지 3분 이내로 명확히 설명할 수 있다.",
+          "새로운 AI 기술이나 툴이 나오면 관심을 갖고 직접 테스트해보며 우리 팀 업무에 적용할 방법이 없는지 탐색한다."
+        ]
+      },
+      {
+        id: 'II',
+        title: 'II. 팀 업무 프로세스 및 구조 인식 (Process & R&R Clarity)',
+        questions: [
+          "우리 팀 핵심 업무의 시작부터 끝까지 전체 흐름을 지금 당장 시각화(플로우차트)하여 막힘없이 설명할 수 있다.",
+          "현재 우리 팀 업무 프로세스 중, 일이 가장 지체되거나 자주 막히는 '병목 구간(Bottleneck)'이 어디인지 정확히 지목할 수 있다.",
+          "팀 내에서 업무 분장이 모호하거나(Gray Zone), 관습적으로 행해지지만 비효율적인 업무가 무엇인지 명확히 인지하고 있다.",
+          "팀원들의 업무 중 AI로 대체하거나 자동화할 수 있는 '단순 반복 업무'가 무엇인지 구체적으로 식별하고 있다.",
+          "우리 팀의 업무 자료(보고서, 데이터 등)가 AI가 학습하거나 참고하기 좋은 형태로 디지털화/구조화되어 있는지 상태를 정확히 파악하고 있다.",
+          "AI가 아닌 '사람(팀원)'만이 제공할 수 있는 우리 팀의 핵심 가치(통찰, 관계, 복합적 판단 등)가 무엇인지 정의할 수 있다.",
+          "유관 부서와의 협업 시, 트러블을 줄이기 위해 우리 팀 결과물이 어떤 형태와 품질로 전달되어야 하는지 명확히 이해하고 있다."
+        ]
+      },
+      {
+        id: 'III',
+        title: 'III. AI 협업 설계 및 통합 (AI Integration Strategy)',
+        questions: [
+          "복잡한 과업을 통째로 맡기지 않고, AI가 수행할 부분과 사람이 수행할 부분으로 구분하여 업무를 재설계할 수 있다.",
+          "AI가 산출한 결과물이 실무에 투입되기 위해 갖춰야 할 구체적인 '합격 기준(품질, 완성도)'을 설정할 수 있다.",
+          "팀원에게 업무를 지시할 때, \"AI를 써봐\"라는 막연한 말 대신 \"이 보고서 목차 잡을 때 AI를 이렇게 활용해보라\"고 구체적인 시나리오를 제시한다.",
+          "특정 업무에 AI를 도입했을 때 기대되는 구체적인 효과(시간 단축, 품질 향상 등)를 수치나 정성적 지표로 예측할 수 있다.",
+          "팀원이 AI 활용에 실패했을 때, 원하는 결과를 얻기 위해 프롬프트를 어떻게 수정해야 하는지 피드백을 줄 수 있다.",
+          "우리 팀 업무 특성(보안 중요도, 창의성 필요도 등)을 고려하여 유료/무료 도구 중 무엇이 적합한지 판단할 수 있다."
+        ]
+      },
+      {
+        id: 'IV',
+        title: 'IV. 팀 문화 및 안전한 활용 리더십 (Culture & Practical Governance)',
+        questions: [
+          "팀원들에게 AI 활용 시 주의해야 할 보안 원칙(기밀 유출 방지 등)과 데이터 가이드라인을 주기적으로 강조하고 있다.",
+          "우리 팀에는 AI를 사용할 때 지켜야 할 최소한의 약속(예: 결과물 교차 검증 필수)인 '그라운드 룰(Ground Rules)'이 있다(혹은 수립 중이다).",
+          "팀원이 AI를 시도하다가 실패하거나 엉뚱한 결과를 얻더라도, 질책하기보다 \"좋은 시도\"라고 격려하는 심리적 안전감을 조성하고 있다.",
+          "팀원들이 업무 중 발견한 유용한 AI 활용 팁이나 프롬프트를 서로 공유할 수 있는 시간이나 기회를 정기적으로 마련하고 있다.",
+          "AI가 작성한 문서에 편향된 내용이나 저작권 문제가 없는지, 최종 배포 전에 리더 차원에서 점검하는 절차를 두고 있다.",
+          "팀원이 유용한 AI 활용법을 동료들에게 공유했을 때, 이를 단순한 봉사가 아닌 '팀 생산성을 높인 성과'로 분명하게 인정하고 칭찬한다."
+        ]
+      }
+    ];
+
+    // === 3. 신규: 5단계 상세 피드백 데이터 (수정된 톤) ===
+    const feedbackData = {
+      'I': {
+        level_5: { title: "매우 우수 (AI 선도자)", message: "✅  리더로서 AI를 일상적·다양하게·정확히 활용하고 있으며, 팀원을 효과적으로 코칭할 준비가 되어 있습니다.\n\n🎯 교육을 통해, 팀 차원의 프롬프트 라이브러리를 구축하는 데 집중해 보세요." },
+        level_4: { title: "우수 (능숙한 실무자)", message: "✅  AI 도구를 개인 업무에 능숙하게 적용하고 있습니다. 검증과 재가공도 체계적입니다.\n\n🎯 교육을 통해, 팀원의 질문에 답변하고 본인의 성공 사례를 정리하는 '코칭 스킬'에 집중해 보세요." },
+        level_3: { title: "중상 (제한적 경험자)", message: "○ AI에 대한 기본 이해는 있으나, 활용이 제한적이거나 주로 단순 텍스트 생성 중심입니다.\n\n🎯 교육을 통해, 다양한 AI 기능(이미지, 분석, 번역 등)을 직접 경험하고 '활용의 폭'을 넓히는 데 집중해 보세요." },
+        level_2: { title: "중위 (개념 이해 단계)", message: "△ AI 개념은 이해하나 실제 업무 적용이 미흡합니다. 작은 성공부터 시작해야 합니다.\n\n🎯 교육을 통해, 1개 도구(예: ChatGPT)로 1개의 반복 업무를 개선해보는 '첫 성공'을 만드는 데 집중해 보세요." },
+        level_1: { title: "미흡 (경험 초기)", message: "✗  AI가 낯설거나 도구 사용 시 첫 시도 결과에 만족하지 못했을 수 있습니다.\n\n🎯 교육을 통해, AI에 대한 심리적 장벽을 낮추고 기초 실습을 완료하는 데 집중해 보세요." }
+      },
+      'II': {
+        level_5: { title: "매우 우수 (프로세스 전략가)", message: "✅  팀의 전체 프로세스, 병목, 데이터 준비도를 명확히 파악하고 있으며, 유관부서와의 협업도 이해하고 있습니다. AI 도입 준비가 가장 견고한 상태입니다.\n\n🎯 교육을 통해, 조직 차원의 프로세스 표준화를 제안하는 방안을 구상하는 데 집중해 보세요." },
+        level_4: { title: "우수 (프로세스 분석가)", message: "✅  팀 프로세스의 주요 흐름과 병목 지점을 파악하고 있으며, 자동화 기회도 식별할 수 있습니다.\n\n🎯 교육을 통해, '로직트리' 실습 시 단순 분석을 넘어 '과감한 업무 삭제 및 AI 기반 자동화'를 구체적으로 설계하는 데 집중해 보세요." },
+        level_3: { title: "중상 (부분 인식 단계)", message: "○ 팀 업무의 대략적 흐름은 알지만, 구체적 병목 분석이나 데이터 준비도 평가가 부족합니다.\n\n🎯 이번 교육의 핵심인 '로직트리' 실습에 몰입하여, 머릿속의 프로세스를 시각화하고 '병목 구간'을 명확히 찾는 데 집중해 보세요." },
+        level_2: { title: "중위 (연결성 부족)", message: "△ 팀 업무를 단계별로는 인식하나, 전체 연결성이나 비효율 지점이 명확하지 않습니다.\n\n🎯 교육을 통해, \"가장 오래 걸리는 부분이 뭘까?\"를 분석하는 법을 배우고 '프로세스 맵핑' 기초를 다지는 데 집중해 보세요." },
+        level_1: { title: "미흡 (구조 파악 필요)", message: "✗  AI 도입 전에 먼저 팀 업무 자체의 구조를 파악해야 합니다. 프로세스 맵핑이 시급합니다.\n\n🎯 이번 교육이 AI 활용의 첫 단추입니다. 교육을 통해 '업무 프로세스 정리'의 중요성을 인지하고, 로직트리 작성 실습에 가장 집중해 보세요." }
+      },
+      'III': {
+        level_5: { title: "매우 우수 (AI 협업 설계자)", message: "✅  팀 업무에서 AI와 인간의 역할을 명확히 분리하고, 성과 측정 기준도 정의할 수 있습니다. 팀원을 효과적으로 코칭할 준비가 되어 있습니다.\n\n🎯 교육을 통해, 조직 차원의 AI 협업 설계 모델을 수립하는 방안을 구상하는 데 집중해 보세요." },
+        level_4: { title: "우수 (시나리오 기획자)", message: "✅  구체적인 AI 적용 시나리오를 그릴 수 있으며, 팀원에게 명확한 지시와 피드백을 제공하고 있습니다.\n\n🎯 교육을 통해, 파일럿 프로젝트의 '성과 측정 지표(ROI)'를 어떻게 설정하고 개선 사이클을 운영할지 집중적으로 고민해 보세요." },
+        level_3: { title: "중상 (작업 분해 시도)", message: "○ 기본적인 작업 분해는 가능하나, 성과 측정이나 도구 선택이 아직 체계적이지 않습니다.\n\n🎯 교육을 통해, \"우리가 측정할 지표는 뭘까?\"부터 정의하는 법을 배우고 '성과 측정 기준' 수립에 집중해 보세요." },
+        level_2: { title: "중위 (적용 고민 단계)", message: "△ AI를 어디에 쓸지는 생각하지만, 구체적 지시나 팀원 지도 방법이 불명확합니다.\n\n🎯 교육을 통해, 'AI 협업 시나리오 작성' 세션에 집중하고 프롬프트 템플릿을 1개 완성해 보세요." },
+        level_1: { title: "미흡 (역할 분담 모호)", message: "✗  AI와 인간의 역할 분담을 어떻게 할지 막연합니다. 먼저 1개 업무로 간단히 시도해야 합니다.\n\n🎯 교육을 통해, 'AI가 할 일 vs 사람이 할 일'을 구분하는 기준을 명확히 배우는 데 집중해 보세요." }
+      },
+      'IV': {
+        level_5: { title: "매우 우수 (AI 문화 선도자)", message: "✅  팀 전체가 AI 활용에 대한 명확한 가이드를 인식하고 있으며, 심리적 안전감과 경험 공유 문화가 잘 형성되어 있습니다. 조직 확산의 모범 팀입니다.\n\n🎯 교육을 통해, 본인의 성공 사례를 바탕으로 '전사적 AI 정책'을 제안하는 방안을 구상해 보세요." },
+        level_4: { title: "우수 (안전한 조력자)", message: "✅  팀원이 AI 활용에 대해 신뢰할 수 있는 가이드라인을 받고 있으며, 작은 성공 경험을 공유하고 있습니다.\n\n🎯 교육을 통해, 정기적인 팀 피드백 미팅을 구조화하고 팀의 성공 사례를 '지식 자산화'하는 방법에 집중해 보세요." },
+        level_3: { title: "중상 (가이드라인 형성 중)", message: "○ 팀원이 기본적인 보안 가이드는 알고 있으나, 실패를 두려워하거나 팁 공유 기회가 부족합니다.\n\n🎯 교육을 통해, '우리 팀 그라운드 룰' 1~2개를 구체적으로 만들고 팀의 '심리적 안전감'을 높이는 리더의 커뮤니케이션 스킬에 집중해 보세요." },
+        level_2: { title: "중위 (방향성 고민)", message: "△ 팀에 대한 AI 가이드가 불명확하거나, 팀원의 우려에 체계적으로 대응하지 못하고 있습니다.\n\n🎯 교육을 통해, 팀원들의 불안감을 해소하는 'AI 도입 커뮤니케이션' 방법을 배우고 '사용 가이드 라인' 수립에 집중해 보세요." },
+        level_1: { title: "미흡 (문화 관리 필요)", message: "✗  팀원이 AI 변화에 불안감을 느끼거나, 리더의 입장이 명확하지 않습니다.\n\n🎯 교육을 통해, AI가 '위협'이 아닌 '도구'임을 팀에 전파하는 리더의 메시지에 집중하고 '안전한 활용 문화' 조성의 첫걸음을 떼 보세요." }
+      }
+    };
+
+    // === 4. [FIX 2] 직무별 피드백 (수정된 톤) ===
+    const jobGroupFeedback = {
+      'A': {
+        title: "A. 전략/지원 그룹 (기획, 인사, 재무 등)",
+        message: "리더님의 직무는 방대한 데이터 처리와 반복 행정 업무가 많습니다. (핵심: 효율과 정확성)\nAI를 활용해 회의록 요약, 엑셀 데이터 분석, 규정 검토 등을 자동화하여 '반복 업무의 효율화'와 '높은 정확성'을 확보하는 데 집중해야 합니다.\n\n교육을 통해, 리더로서 '보안 가이드라인'을 명확히 세우는 것과 '프로세스 병목'을 찾아 행정 시간을 단축하는 실습에 집중해 보세요."
+      },
+      'B': {
+        title: "B. 고객 접점 그룹 (영업, 마케팅, CS 등)",
+        message: "리더님의 직무는 고객 설득과 콘텐츠 생성이 핵심입니다. (핵심: 창의와 개인화)\nAI를 '아이디어 파트너'로 삼아 카피라이팅, 제안서 초안, 이미지 생성 등 '콘텐츠 제작 속도'를 높이는 데 주력해야 합니다.\n\n교육을 통해, 리더로서 AI가 만든 결과물이 '브랜드 톤앤매너'에 맞는지, '거짓 정보(할루시네이션)'는 없는지 검증하는 '윤리적 활용'과 '다양한 도구 활용'에 집중해 보세요."
+      },
+      'C': {
+        title: "C. 기술/제품 그룹 (개발, R&D, 설계 등)",
+        message: "리더님의 직무는 기술적 문제 해결과 제품 고도화가 중요합니다. (핵심: 전문성과 가속화)\nAI를 '전문 보조 연구원'으로 활용하여 코딩 보조(Copilot), 최신 논문 요약, 기술 트렌드 분석 등 'R&D 속도'를 높이는 데 집중하세요.\n\n교육을 통해, 'AI와 인간의 업무 분담'을 어떻게 설계할지, 그리고 AI가 생성한 코드나 설계의 '지식재산권(IP) 및 보안 취약점'을 리더로서 어떻게 가이드할지 집중해 보세요."
+      },
+      'D': {
+        title: "D. 현장/운영 그룹 (생산, 물류, 구매 등)",
+        message: "리더님의 직무는 현장 문제 해결과 공정 관리가 핵심입니다. (핵심: 안전과 최적화)\nAI를 활용해 자재 수급 예측, 설비 고장 시그널 파악, 현장 매뉴얼 검색 등을 자동화하여 '안전성'과 '운영 효율'을 높여야 합니다.\n\n현장직 팀원들이 AI를 '위협'으로 느낄 수 있습니다. 교육을 통해, AI가 '감시자'가 아닌 '안전 도우미'임을 강조하여 '심리적 저항감'을 낮추는 것과 '물리적 병목'을 데이터로 찾는 실습에 집중해 보세요."
+      }
+    };
+
+    // === 5. DOM 요소 ===
+    const questionsContainer = document.getElementById('questionsContainer');
+    const assessmentForm = document.getElementById('assessmentForm');
+    const resultsContainer = document.getElementById('resultsContainer');
+    const scoreSummary = document.getElementById('scoreSummary');
+    const feedbackDetails = document.getElementById('feedbackDetails');
+    const jobSpecificFeedback = document.getElementById('jobSpecificFeedback');
+    const jobSpecificFeedbackContent = document.getElementById('jobSpecificFeedbackContent');
+    const restartButton = document.getElementById('restartButton');
+    const goBackButton = document.getElementById('goBackButton'); 
+    const statusMessage = document.getElementById('statusMessage');
+
+    let currentResults = null;
+    let userResponses = [];
+
+    // === 6. 신규: 피드백/레벨 헬퍼 함수 (docx 기반) ===
+
+    // 카테고리 I, III, IV (30점 만점)
+    function getFeedbackLevel_30(sum) {
+      if (sum >= 26) return 'level_5';
+      if (sum >= 21) return 'level_4';
+      if (sum >= 16) return 'level_3';
+      if (sum >= 11) return 'level_2';
+      return 'level_1';
+    }
+
+    // 카테고리 II (35점 만점)
+    function getFeedbackLevel_35(sum) {
+      if (sum >= 31) return 'level_5';
+      if (sum >= 26) return 'level_4';
+      if (sum >= 20) return 'level_3';
+      if (sum >= 15) return 'level_2';
+      return 'level_1';
+    }
+    
+    // 종합 수준 (125점 만점)
+    function getOverallLevel(totalScore) {
+      if (totalScore >= 110) return {
+        name: "우수 (Leading)",
+        desc: "AI 협업 리더로서 기초가 견고합니다. 조직 내 확산을 리드할 수 있습니다.",
+        level: "Lv.4 Transformation Leader",
+        color: "text-emerald-600",
+        bgColor: "bg-emerald-50"
+      };
+      if (totalScore >= 93) return {
+        name: "중상 (Strong)",
+        desc: "AI 기본기를 갖췄으며, 팀 차원의 시스템화를 진행 중입니다.",
+        level: "Lv.3 Active Adopter",
+        color: "text-sky-600",
+        bgColor: "bg-sky-50"
+      };
+      if (totalScore >= 75) return {
+        name: "중위 (Moderate)",
+        desc: "AI 개념은 이해하나 실행이 단편적입니다. 체계적 학습이 필요합니다.",
+        level: "Lv.2 Potential Adopter",
+        color: "text-amber-600",
+        bgColor: "bg-amber-50"
+      };
+      if (totalScore >= 57) return {
+        name: "미흡 (Limited)",
+        desc: "AI 개념 또는 도구 학습 단계입니다. 기초 교육 투자가 필수입니다.",
+        level: "Lv.1 Foundation Builder",
+        color: "text-rose-600",
+        bgColor: "bg-rose-50"
+      };
+      return {
+        name: "초기 (Beginner)",
+        desc: "AI 협업에 대한 기초 인식이 부족합니다. 지금이 바로 시작할 때입니다.",
+        level: "Lv.1 Foundation Builder",
+        color: "text-gray-600",
+        bgColor: "bg-gray-100"
+      };
+    }
+
+    // Wharton Z-Score 기반 백분위 (docx 기반)
+    function getPercentileRange(zScore) {
+      if (zScore >= 1.5) return "상위 1-7%";
+      if (zScore >= 1.0) return "상위 7-16%";
+      if (zScore >= 0.5) return "상위 16-31%";
+      if (zScore > 0) return "상위 31-50% (상위권)";
+      if (zScore > -0.5) return "상위 31-50% (중위권)";
+      if (zScore > -1.0) return "하위 16-31%";
+      if (zScore > -1.5) return "하위 7-16%";
+      return "하위 1-7%";
+    }
+
+    // === 7. 신규: Google Sheets 페이로드 생성 (수정 없음) ===
+    function createPayload(results, userResponses) {
+      const responsesMap = {
+        JobGroup: results.jobGroup.key
+      };
+      userResponses.forEach(res => {
+        responsesMap['Q' + res.index] = res.score;
+      });
+
+      return {
+        timestamp: new Date().toISOString(),
+        jobGroup: results.jobGroup.key,
+        responses: responsesMap,
+        sums: {
+          I: results.I.sum,
+          II: results.II.sum,
+          III: results.III.sum,
+          IV: results.IV.sum
+        },
+        totalScore: results.totalScore,
+        averageScore: results.averageScore,
+        zScore: results.zScore,
+        percentileRank: results.percentileRank,
+        overallLevel: results.overallLevel.name
+      };
+    }
+
+    // === 8. [FIX 3] 🔧 개선: Google Sheets 전송 로직 (CORS 처리 강화) ===
+    async function sendResultsToSheets(results, userResponses) {
+      // URL 검증
+      if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL === 'YOUR_DEPLOYED_WEB_APP_URL' || APPS_SCRIPT_URL.trim() === '') {
+        console.warn('⚠️ Google Apps Script URL이 설정되지 않았습니다.');
+        statusMessage.classList.remove('hidden', 'bg-emerald-100', 'text-emerald-800');
+        statusMessage.classList.add('bg-amber-100', 'text-amber-800');
+        statusMessage.innerHTML = '⚠️ 데이터 저장 기능이 비활성화되어 있습니다. 결과는 화면에서만 확인 가능합니다.';
+        displayResults(results); // URL이 없어도 로컬 결과 표시는 진행
+        return;
+      }
+
+      const payload = createPayload(results, userResponses);
+      
+      // 전송 시작 메시지
+      statusMessage.classList.remove('hidden', 'bg-red-100', 'text-red-800', 'bg-emerald-100', 'text-emerald-800');
+      statusMessage.classList.add('bg-amber-100', 'text-amber-800');
+      statusMessage.innerHTML = '<span class="animate-pulse">📊</span> 결과를 분석하고 전송 중입니다...';
+      document.getElementById('submitButton').disabled = true;
+
+      // 타임아웃 설정 (10초)
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+      try {
+        const response = await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'text/plain' // CORS 우회를 위해 text/plain 사용
+          },
+          body: JSON.stringify(payload),
+          signal: controller.signal
+        });
+
+        clearTimeout(timeoutId);
+
+        // Apps Script가 응답을 JSON으로 반환하고 CORS가 올바르게 설정되었다고 가정
+        const result = await response.json();
+        
+        if (response.ok && result && result.success) {
+          statusMessage.classList.remove('bg-amber-100', 'text-amber-800');
+          statusMessage.classList.add('bg-emerald-100', 'text-emerald-800');
+          statusMessage.innerHTML = '✅ 진단 결과가 안전하게 저장되었습니다.';
+        } else {
+          // 서버에서 {success: false, error: '...'}와 같은 응답을 보낸 경우
+          throw new Error(result?.error || '서버에서 응답 처리에 실패했습니다.');
+        }
+        
+      } catch (error) {
+        clearTimeout(timeoutId);
+        
+        // 에러 타입별 처리
+        let errorMessage = '❌ 데이터 전송 실패: ';
+        
+        if (error.name === 'AbortError') {
+          errorMessage += '요청 시간 초과 (10초). 네트워크를 확인해주세요.';
+        } else if (error instanceof TypeError) { // fetch 자체가 실패 (네트워크 오류, CORS 등)
+           errorMessage += '네트워크 오류 또는 CORS 설정 오류일 수 있습니다.';
+           console.error('Fetch Error:', error);
+        } else if (error instanceof SyntaxError) { // JSON.parse() 실패
+            errorMessage += '서버 응답 형식이 올바르지 않습니다. (JSON 오류)';
+            console.error('JSON Parse Error:', error);
+        } else {
+          errorMessage += error.message;
+        }
+        
+        statusMessage.classList.remove('bg-amber-100', 'text-amber-800');
+        statusMessage.classList.add('bg-red-100', 'text-red-800');
+        statusMessage.innerHTML = errorMessage;
+        
+        console.error("📊 Sheets Submission Error:", {
+          error: error.message,
+          type: error.name,
+          url: APPS_SCRIPT_URL
+        });
+
+        // 로컬 저장소에 백업
+        try {
+          const backupKey = `survey_backup_${new Date().getTime()}`;
+          localStorage.setItem(backupKey, JSON.stringify({
+            results: results,
+            responses: userResponses,
+            timestamp: new Date().toISOString()
+          }));
+          console.log('💾 결과가 로컬에 백업되었습니다:', backupKey);
+          
+          // 메시지에 백업 안내 추가
+          statusMessage.innerHTML += '<br><small>💾 결과가 브라우저에 임시 저장되었습니다.</small>';
+        } catch (localError) {
+          console.warn('로컬 저장 실패:', localError);
+        }
+        
+      } finally {
+        document.getElementById('submitButton').disabled = false;
+        // 전송 실패 여부와 관계없이 사용자는 결과를 볼 수 있어야 합니다.
+        displayResults(results);
+      }
+    }
+
+    // === 9. 질문 렌더링 (수정 없음) ===
+    function renderQuestions() {
+      let qCounter = 1;
+      questionsContainer.innerHTML = '';
+
+      const scoreLabels = [
+        "전혀 그렇지 않다",
+        "그렇지 않다",
+        "보통이다",
+        "그렇다", // "약간 그렇다" -> "그렇다"로 통일
+        "매우 그렇다"
+      ];
+
+      surveyData.forEach(area => {
+        const areaTitleDiv = document.createElement('div');
+        areaTitleDiv.className = 'pb-2 mb-4'; 
+        areaTitleDiv.innerHTML = `<h2 class="text-xl sm:text-2xl font-semibold text-slate-700">${area.title}</h2>`;
+        questionsContainer.appendChild(areaTitleDiv);
+
+        const areaContentDiv = document.createElement('div');
+        areaContentDiv.className = 'border border-gray-300 rounded-xl p-4 sm:p-6 mb-6 shadow-sm'; 
+        questionsContainer.appendChild(areaContentDiv);
+
+        area.questions.forEach((qText, index) => {
+          const qIndex = qCounter++;
+          const questionDiv = document.createElement('div');
+          
+          const separatorClass = index > 0 ? 'pt-4 border-t border-gray-200 mt-4' : '';
+          
+          questionDiv.className = `pb-4 ${separatorClass}`;
+
+          questionDiv.innerHTML = `
+            <p class="text-base sm:text-lg font-medium text-gray-800 mb-4 leading-relaxed">
+              <span class="text-slate-700 font-bold mr-2">${qIndex}.</span> ${qText}
+            </p>
+            
+            <div class="flex flex-wrap justify-center sm:justify-between -m-1">
+              ${[1, 2, 3, 4, 5].map(score => `
+                <input type="radio" id="q${qIndex}-${score}" name="q${qIndex}" value="${score}"
+                  class="rating-input" data-area="${area.id}" data-q-content="${qText}">
+                <label for="q${qIndex}-${score}" class="rating-label">
+                  <span class="rating-circle"></span>
+                  <span class="rating-score-text">
+                    <span class="rating-score-number">${score}.</span>
+                    ${scoreLabels[score - 1]}
+                  </span>
+                </label>
+              `).join('')}
+            </div>
+          `;
+          areaContentDiv.appendChild(questionDiv);
+        });
+      });
+    }
+
+    // === 10. 신규: 결과 계산 로직 (수정 없음) ===
+    function calculateAndDisplayResults(event) {
+      event.preventDefault();
+
+      const form = event.target;
+      const jobGroupSelect = document.getElementById('q_job_group');
+      const jobGroupValue = jobGroupSelect.value;
+      const jobGroupText = jobGroupSelect.options[jobGroupSelect.selectedIndex].text;
+
+      // 직무 그룹 유효성 검사
+      if (!jobGroupValue) {
+        alert('Q0. 직무 그룹을 선택해 주세요.');
+        jobGroupSelect.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        jobGroupSelect.style.border = '2px solid red';
+        setTimeout(() => { jobGroupSelect.style.border = '1px solid #a5b4fc'; }, 2000);
+        return;
+      }
+
+      let allAnswered = true;
+      let scores = { I: [], II: [], III: [], IV: [] };
+      userResponses = [];
+
+      // 25개 문항 유효성 검사
+      for (let i = 1; i <= 25; i++) {
+        const qName = `q${i}`;
+        const checkedInput = form.querySelector(`input[name="${qName}"]:checked`);
+        
+        if (!checkedInput) {
+          allAnswered = false;
+          const questionElement = document.querySelector(`input[name="${qName}"]`).closest('div[class*="pb-4"]');
+          if(questionElement) {
+            questionElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            questionElement.style.border = '2px solid red';
+            questionElement.style.borderRadius = '0.5rem';
+            setTimeout(() => {
+              questionElement.style.border = '';
+              questionElement.style.borderRadius = '';
+            }, 2000);
+          }
+          break;
+        }
+
+        const score = parseInt(checkedInput.value);
+        const areaId = checkedInput.getAttribute('data-area');
+        const questionContent = checkedInput.getAttribute('data-q-content');
+        
+        userResponses.push({
+          index: i,
+          area: areaId,
+          content: questionContent,
+          score: score
+        });
+
+        scores[areaId].push(score);
+      }
+
+      if (!allAnswered) {
+        alert('미응답 문항이 있습니다. 응답되지 않은 문항으로 이동합니다.'); 
+        return;
+      }
+      
+      let results = {
+        jobGroup: { key: jobGroupValue, text: jobGroupText }
+      };
+      
+      const sumI = scores.I.reduce((acc, val) => acc + val, 0);
+      const sumII = scores.II.reduce((acc, val) => acc + val, 0);
+      const sumIII = scores.III.reduce((acc, val) => acc + val, 0);
+      const sumIV = scores.IV.reduce((acc, val) => acc + val, 0);
+      
+      const totalScore = sumI + sumII + sumIII + sumIV; // 125점 만점
+      const averageScore = parseFloat((totalScore / 25).toFixed(2)); // 5점 만점
+      
+      const WHARTON_AVG = 3.06;
+      const WHARTON_STD_DEV = 0.6;
+      const zScore = parseFloat(((averageScore - WHARTON_AVG) / WHARTON_STD_DEV).toFixed(2));
+      const percentileRank = getPercentileRange(zScore);
+      const overallLevel = getOverallLevel(totalScore);
+
+      results.I = {
+        sum: sumI,
+        max: 30,
+        feedback: feedbackData.I[getFeedbackLevel_30(sumI)]
+      };
+      results.II = {
+        sum: sumII,
+        max: 35,
+        feedback: feedbackData.II[getFeedbackLevel_35(sumII)]
+      };
+      results.III = {
+        sum: sumIII,
+        max: 30,
+        feedback: feedbackData.III[getFeedbackLevel_30(sumIII)]
+      };
+      results.IV = {
+        sum: sumIV,
+        max: 30,
+        feedback: feedbackData.IV[getFeedbackLevel_30(sumIV)]
+      };
+
+      results.totalScore = totalScore;
+      results.averageScore = averageScore;
+      results.zScore = zScore;
+      results.percentileRank = percentileRank;
+      results.overallLevel = overallLevel;
+
+      currentResults = results;
+      sendResultsToSheets(results, userResponses); 
+    }
+
+    // === 11. 신규: 결과 표시 로직 (수정 없음) ===
+    function displayResults(results) {
+      // 1. 종합 점수판 채우기
+      scoreSummary.innerHTML = `
+        <div class="mb-4">
+          <span class="inline-block px-4 py-1.5 rounded-full ${results.overallLevel.bgColor} ${results.overallLevel.color} font-bold text-base sm:text-lg">
+            ${results.overallLevel.level}
+          </span>
+        </div>
+        <div class="text-6xl sm:text-7xl font-extrabold text-slate-800 mb-2">${results.totalScore} <span class="text-3xl sm:text-4xl text-gray-500 font-medium">/ 125점</span></div>
+        <p class="text-lg sm:text-xl font-semibold text-gray-700 mb-4">${results.overallLevel.name} - ${results.overallLevel.desc}</p>
+        <div class="border-t border-indigo-200 pt-4">
+          <p class="text-base sm:text-lg font-bold text-indigo-700">Wharton 벤치마크 기준, 리더님의 현재 위치는 <span class="underline underline-offset-4">${results.percentileRank}</span>입니다.</p>
+        </div>
+      `;
+
+      // 2. 카테고리별 상세 피드백 채우기
+      feedbackDetails.innerHTML = '';
+      const areaTitles = {
+        'I': 'I. 리더의 AI 활용 경험',
+        'II': 'II. 팀 업무 프로세스 및 구조 인식',
+        'III': 'III. AI 협업 설계 및 통합',
+        'IV': 'IV. 팀 문화 및 안전한 활용 리더십'
+      };
+
+      ['I', 'II', 'III', 'IV'].forEach(areaId => {
+        const result = results[areaId];
+        const detailDiv = document.createElement('div');
+        
+        let borderColor, bgColor, titleColor;
+        const level = result.feedback.title.substring(0, 2); // "매우" "우수" "중상" "중위" "미흡"
+        
+        if (level === '매우' || level === '우수') {
+          borderColor = 'border-emerald-500'; bgColor = 'bg-emerald-50'; titleColor = 'text-emerald-800';
+        } else if (level === '중상') {
+          borderColor = 'border-sky-500'; bgColor = 'bg-sky-50'; titleColor = 'text-sky-800';
+        } else if (level === '중위') {
+          borderColor = 'border-amber-500'; bgColor = 'bg-amber-50'; titleColor = 'text-amber-800';
+        } else {
+          borderColor = 'border-rose-500'; bgColor = 'bg-rose-50'; titleColor = 'text-rose-800';
+        }
+
+        detailDiv.className = `p-5 sm:p-6 rounded-xl border-l-4 ${borderColor} ${bgColor} shadow-md`;
+        detailDiv.innerHTML = `
+          <div class="flex justify-between items-start mb-3">
+            <div>
+              <h3 class="text-xl sm:text-2xl font-extrabold ${titleColor} mb-1">
+                ${areaTitles[areaId]}
+              </h3>
+              <h4 class="text-lg sm:text-xl font-bold text-gray-900">${result.feedback.title}</h4>
+            </div>
+            <div class="text-2xl sm:text-3xl font-bold ${titleColor} whitespace-nowrap pl-4">
+              ${result.sum} <span class="text-base sm:text-lg text-gray-600 font-medium">/ ${result.max}점</span>
+            </div>
+          </div>
+          <p class="text-sm sm:text-base text-gray-700 leading-relaxed whitespace-pre-wrap">${result.feedback.message}</p>
+        `;
+        feedbackDetails.appendChild(detailDiv);
+      });
+
+      // 3. 직무별 맞춤 피드백 채우기
+      const jobKey = results.jobGroup.key;
+      if (jobGroupFeedback[jobKey]) {
+        const jobFeedback = jobGroupFeedback[jobKey];
+        jobSpecificFeedbackContent.innerHTML = `
+          <h4 class="text-xl sm:text-2xl font-bold text-indigo-900 mb-3">${jobFeedback.title}</h4>
+          <p class="text-sm sm:text-base text-indigo-800 leading-relaxed whitespace-pre-wrap">${jobFeedback.message}</p>
+        `;
+        jobSpecificFeedback.classList.remove('hidden');
+      } else {
+        jobSpecificFeedback.classList.add('hidden');
+      }
+
+      // 4. 화면 전환
+      assessmentForm.classList.add('hidden');
+      resultsContainer.classList.remove('hidden');
+      resultsContainer.scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    // === 12. 유틸리티 함수 (수정 없음) ===
+    function restartAssessment() {
+      assessmentForm.reset();
+      statusMessage.classList.add('hidden');
+      statusMessage.innerHTML = '';
+      
+      resultsContainer.classList.add('hidden');
+      assessmentForm.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    function goBackToSurvey() {
+      statusMessage.classList.add('hidden');
+      statusMessage.innerHTML = '';
+      
+      resultsContainer.classList.add('hidden');
+      assessmentForm.classList.remove('hidden');
+      // 상단이 아닌, 첫 번째 질문(직무)으로 스크롤
+      document.getElementById('q_job_group').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    // === 13. [FIX 4] 초기 실행 (백업 확인 로직 복원) ===
+    window.onload = () => {
+      renderQuestions();
+      assessmentForm.addEventListener('submit', calculateAndDisplayResults);
+      restartButton.addEventListener('click', restartAssessment); 
+      goBackButton.addEventListener('click', goBackToSurvey);
+      
+      // 🔧 페이지 로드 시 이전 백업 확인
+      try {
+        const backupKeys = Object.keys(localStorage).filter(key => key.startsWith('survey_backup_'));
+        if (backupKeys.length > 0) {
+          console.log(`💾 ${backupKeys.length}개의 백업된 결과가 있습니다:`, backupKeys);
+          // 필요시 복구 UI 추가 가능
+        }
+      } catch (e) {
+        console.warn('로컬 저장소 접근 불가:', e);
+      }
+    };
+  </script>
+</body>
+</html>
