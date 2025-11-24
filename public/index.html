@@ -8,11 +8,11 @@
   
   <!-- Open Graph 메타 태그 (카카오톡, 페이스북 등) -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://ai-leader-survey-fin.pages.dev">
+  <meta property="og:url" content="https://ax-ready-survey.pages.dev/">
   <meta property="og:site_name" content="멀티캠퍼스">
   <meta property="og:title" content="WORK WITH AI | 멀티캠퍼스">
   <meta property="og:description" content="일하는 방식의 변화, 멀티캠퍼스에서 확인하세요.">
-  <meta property="og:image" content="https://ai-leader-survey-fin.pages.dev/preview-image.jpg">
+  <meta property="og:image" content="https://static.multicampus.com/mail/2025/09/0909_2/images/img_01.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   
@@ -20,12 +20,12 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="WORK WITH AI | 멀티캠퍼스">
   <meta name="twitter:description" content="일하는 방식의 변화, 멀티캠퍼스에서 확인하세요.">
-  <meta name="twitter:image" content="https://ai-leader-survey-fin.pages.dev/preview-image.jpg">
+  <meta name="twitter:image" content="https://static.multicampus.com/mail/2025/09/0909_2/images/img_01.jpg">
   
   <!-- 카카오톡 전용 메타 태그 -->
   <meta property="kakao:title" content="WORK WITH AI | 멀티캠퍼스">
   <meta property="kakao:description" content="일하는 방식의 변화, 멀티캠퍼스에서 확인하세요.">
-  <meta property="kakao:image" content="https://ai-leader-survey-fin.pages.dev/preview-image.jpg">
+  <meta property="kakao:image" content="https://static.multicampus.com/mail/2025/09/0909_2/images/img_01.jpg">
     
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     
@@ -59,7 +59,11 @@
       -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
     }
     :root { font-family: 'Noto Sans KR', sans-serif; }
-    body { font-size: 16px; line-height: 1.6; color: #333; }
+    body {      font-size: 16px; 
+      line-height: 1.6; 
+      color: #333; 
+      word-break: keep-all; /* 한글 단어 잘림 방지 핵심 코드 */
+      overflow-wrap: break-word; /* 긴 영단어 등은 줄바꿈 허용 */}
     .rating-input { display: none; }
     .rating-label {
       min-width: calc(20% - 0.5rem); flex-basis: auto; display: flex; flex-direction: column; 
@@ -100,12 +104,16 @@
         background: white !important;
         padding: 0 !important;
         margin: 0 !important;
+        font-size: 14px; /* 프린트 시 기본 폰트 사이즈 약간 축소 */
+        word-break: keep-all !important; /* [FIX] 프린트 시에도 단어 잘림 방지 강제 적용 */
       }
       
       #app {
         box-shadow: none !important;
         max-width: 100% !important;
-        padding: 20px !important;
+        width: 100% !important;
+        padding: 0 !important; /* 프린트 시 내부 패딩 제거 */
+        margin: 0 !important;
       }
       
       /* 프린트 시 숨길 요소 */
@@ -115,15 +123,15 @@
       
       /* 페이지 나누기 방지 */
       .avoid-break {
-        page-break-inside: avoid;
-        break-inside: avoid;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
       }
       
       /* 프린트용 스타일 조정 */
-      h1 { font-size: 24pt !important; }
-      h2 { font-size: 18pt !important; }
-      h3 { font-size: 16pt !important; }
-      p, div { font-size: 11pt !important; }
+      h1 { font-size: 20pt !important; }
+      h2 { font-size: 16pt !important; }
+      h3 { font-size: 14pt !important; }
+      p, div, span, li { font-size: 11pt !important; line-height: 1.4 !important; }
       
       /* 색상 보존 */
       * {
@@ -132,16 +140,28 @@
       }
       
       /* 테두리 보존 */
-      .border, .border-t, .border-l-4 {
+      .border, .border-t, .border-l-4, .divide-y {
         border-color: #ccc !important;
+      }
+
+      /* 결과 컨테이너 여백 축소 */
+      #resultsContainer {
+        margin-top: 10px !important;
+        padding-top: 10px !important;
+        border-top: none !important;
       }
     }
   </style>
 </head>
-<body class="bg-gray-100 min-h-screen p-4 sm:p-8">
-  <div id="app" class="max-w-4xl mx-auto bg-white shadow-xl rounded-2xl p-6 sm:p-10">
+<body class="bg-gray-100 min-h-screen p-4 sm:p-8 break-keep">
+  <div id="app" class="max-w-4xl mx-auto bg-white shadow-xl rounded-2xl p-6 sm:p-10 relative overflow-hidden">
     
-    <header class="text-center mb-10 border-b pb-6 border-gray-200">
+    <!-- 상단 인디고 라인 -->
+    <div class="absolute top-0 left-0 w-full h-2 bg-indigo-600"></div>
+    
+
+    <header class="text-center mb-10 border-b pb-6 border-gray-200 relative mt-6">
+      
       <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-800 mb-2 leading-tight">
         AI 협업 리더 준비도 (Readiness) 진단
       </h1>
@@ -149,7 +169,7 @@
         리더님의 현재 위치를 파악하고, 교육에서 무엇에 집중할지 확인해 보세요.
       </p>
       <p class="text-sm text-gray-500 mt-4 max-w-2xl mx-auto">
-        *본 진단은 Wharton의 AI Readiness Quotient (AI-RQ) 조사 자료 및 글로벌 컨설팅 펌(BCG, McKinsey)의 AI 전환을 위한 리더의 역할 관련 연구 결과를 종합하여 제작했습니다.
+        *본 진단은 Wharton의 AI Readiness Quotient (AI-RQ) 조사 자료 및 글로벌 컨설팅 펌(BCG, McKinsey)의<br><b>AI 전환을 위한 리더의 역할</b> 관련 연구 결과를 종합하여 제작했습니다.
       </p>
     </header>
 
@@ -184,49 +204,49 @@
     </form>
 
     <!-- === 수정: 결과 표시 컨테이너 === -->
-    <div id="resultsContainer" class="hidden mt-16 pt-8 border-t-4 border-slate-300">
-      <h2 class="text-3xl sm:text-4xl font-bold text-slate-700 mb-6 text-center">종합 진단 결과</h2>
+    <div id="resultsContainer" class="hidden mt-8 pt-4 border-t-4 border-slate-300"> <!-- 간격 축소: mt-16->8, pt-8->4 -->
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-700 mb-4 text-center">종합 진단 결과</h2> <!-- 간격 축소: mb-6->4 -->
       
       <!-- 종합 점수판 -->
-      <div id="scoreSummary" class="bg-white border-4 border-indigo-400 rounded-xl shadow-2xl p-6 sm:p-8 text-center mb-12 transition hover:shadow-xl">
+      <div id="scoreSummary" class="bg-white border-4 border-indigo-400 rounded-xl shadow-2xl p-4 sm:p-6 text-center mb-6 transition hover:shadow-xl avoid-break"> <!-- 패딩/마진 축소: p-6->4, mb-12->6 -->
         <!-- JS로 내용 채워짐 -->
       </div>
       
-      <h3 class="text-2xl sm:text-3xl font-bold text-slate-700 mb-8 text-center border-t pt-8">
+      <h3 class="text-xl sm:text-2xl font-bold text-slate-700 mb-4 text-center border-t pt-6"> <!-- 간격 축소: mb-8->4, pt-8->6 -->
         영역별 상세 피드백 및 교육 주안점
       </h3>
       
       <!-- 4개 카테고리별 상세 피드백 -->
-      <div id="feedbackDetails" class="space-y-8 mt-10">
+      <div id="feedbackDetails" class="mt-4"> <!-- 간격 축소: mt-10->4 -->
         <!-- JS로 내용 채워짐 -->
       </div>
 
       <!-- 직무별 맞춤형 가이드 -->
-      <div id="jobSpecificFeedback" class="hidden mt-10">
-         <h3 class="text-2xl sm:text-3xl font-bold text-indigo-700 mb-6 text-center border-t pt-8">
+      <div id="jobSpecificFeedback" class="hidden mt-6"> <!-- 간격 축소: mt-10->6 -->
+         <h3 class="text-xl sm:text-2xl font-bold text-indigo-700 mb-4 text-center border-t pt-6"> <!-- 간격 축소: mb-6->4, pt-8->6 -->
            🚀 직무 그룹 맞춤형 가이드
          </h3>
-         <div id="jobSpecificFeedbackContent" class="bg-indigo-50 border-l-4 border-indigo-500 p-5 sm:p-6 rounded-r-lg shadow-md">
+         <div id="jobSpecificFeedbackContent" class="bg-indigo-50 border-l-4 border-indigo-500 p-4 sm:p-6 rounded-r-lg shadow-md avoid-break"> <!-- 패딩 축소: p-5->4 -->
            <!-- JS로 내용 채워짐 -->
          </div>
       </div>
 
-<div class="mt-12 text-center space-x-2 sm:space-x-4 no-print">
-  <button id="printButton"
-    class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 sm:px-6 rounded-lg transition duration-300 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 text-base sm:text-lg">
-    🖨️ 프린트하기
-  </button>
-  <button id="goBackButton"
-    class="bg-slate-700 hover:bg-slate-800 text-white font-bold py-3 px-4 sm:px-6 rounded-lg transition duration-300 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-opacity-50 text-base sm:text-lg">
-    응답 확인 및 수정하기
-  </button>
-  <button id="restartButton"
-    class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 px-4 sm:px-6 rounded-lg transition duration-300 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-opacity-50 text-base sm:text-lg">
-    설문 다시 시작하기
-  </button>
-</div> 
+      <div class="mt-8 text-center space-x-2 sm:space-x-4 no-print"> <!-- 간격 축소: mt-12->8 -->
+        <button id="printButton"
+          class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 sm:px-6 rounded-lg transition duration-300 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 text-base sm:text-lg">
+          🖨️ 프린트하기
+        </button>
+        <button id="goBackButton"
+          class="bg-slate-700 hover:bg-slate-800 text-white font-bold py-3 px-4 sm:px-6 rounded-lg transition duration-300 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-opacity-50 text-base sm:text-lg">
+          응답 확인 및 수정하기
+        </button>
+        <button id="restartButton"
+          class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 px-4 sm:px-6 rounded-lg transition duration-300 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-opacity-50 text-base sm:text-lg">
+          설문 다시 시작하기
+        </button>
+      </div> 
       
-      <div class="mt-8 text-center text-gray-600 border-t pt-4">
+      <div class="mt-6 text-center text-gray-600 border-t pt-4"> <!-- 간격 축소: mt-8->6 -->
         <p class="font-medium text-sm sm:text-base">본 결과는 교육 집중 영역을 안내하며, 절대적인 평가 기준이 아님을 알려드립니다.</p>
       </div>
     </div>
@@ -243,49 +263,49 @@
         id: 'I',
         title: 'I. 리더의 AI 활용 경험 (AI Practical Competency)',
         questions: [
-          "나는 업무 수행 과정(이메일, 기획, 요약 등)에서 생성형 AI를 일상적이고 빈번하게 활용하고 있다.",
-          "단순 텍스트 생성 외에도 이미지, 데이터 분석, 번역 등 다양한 AI 기능을 업무 목적에 맞게 복합적으로 활용한다.",
-          "AI에게 업무를 지시할 때, 모호하게 말하지 않고 구체적인 배경, 조건, 예시를 포함하여 프롬프트를 작성하는 편이다.",
-          "AI가 생성한 결과물의 사실 여부를 반드시 검증하고, 내 경험과 인사이트를 더해 내용을 재가공해서 사용한다.",
-          "우리 팀원에게 생성형 AI가 무엇이고, 우리 업무 중 어디에 적용 가능한지 3분 이내로 명확히 설명할 수 있다.",
-          "새로운 AI 기술이나 툴이 나오면 관심을 갖고 직접 테스트해보며 우리 팀 업무에 적용할 방법이 없는지 탐색한다."
+          "업무 수행(이메일, 기획, 요약 등) 과정에서 생성형 AI를 일상적으로 자주 활용한다.",
+          "텍스트 생성 외에도 이미지, 데이터 분석, 번역 등 다양한 AI 기능을 업무 목적에 맞게 복합적으로 활용한다.",
+          "AI에게 지시할 때, 모호하게 말하지 않고 구체적인 배경과 조건을 담아 프롬프트를 작성하는 편이다.",
+          "AI 결과물을 그대로 쓰기보다, 사실 관계를 확인하고 나의 경험과 인사이트를 더해 재가공한다.",
+          "생성형 AI가 무엇이고 우리 업무에 어떻게 적용 가능한지, 팀원들에게 핵심을 요약하여 알기 쉽게 설명할 수 있다.",
+          "새로운 AI 기술이나 툴이 나오면 관심을 갖고 직접 테스트하며, 우리 팀 업무에 적용할 방안을 탐색한다."
         ]
       },
       {
         id: 'II',
         title: 'II. 팀 업무 프로세스 및 구조 인식 (Process & R&R Clarity)',
         questions: [
-          "우리 팀 핵심 업무의 시작부터 끝까지 전체 흐름을 지금 당장 시각화(플로우차트)하여 막힘없이 설명할 수 있다.",
-          "현재 우리 팀 업무 프로세스 중, 일이 가장 지체되거나 자주 막히는 '병목 구간(Bottleneck)'이 어디인지 정확히 지목할 수 있다.",
-          "팀 내에서 업무 분장이 모호하거나(Gray Zone), 관습적으로 행해지지만 비효율적인 업무가 무엇인지 명확히 인지하고 있다.",
-          "팀원들의 업무 중 AI로 대체하거나 자동화할 수 있는 '단순 반복 업무'가 무엇인지 구체적으로 식별하고 있다.",
-          "우리 팀의 업무 자료(보고서, 데이터 등)가 AI가 학습하거나 참고하기 좋은 형태로 디지털화/구조화되어 있는지 상태를 정확히 파악하고 있다.",
-          "AI가 아닌 '사람(팀원)'만이 제공할 수 있는 우리 팀의 핵심 가치(통찰, 관계, 복합적 판단 등)가 무엇인지 정의할 수 있다.",
-          "유관 부서와의 협업 시, 트러블을 줄이기 위해 우리 팀 결과물이 어떤 형태와 품질로 전달되어야 하는지 명확히 이해하고 있다."
+          "우리 팀 핵심 업무의 시작부터 끝까지 전체 흐름을 머릿속에 그리거나 플로우차트로 막힘없이 설명할 수 있다.",
+          "현재 업무 프로세스 중 일이 가장 지체되거나 자주 막히는 '병목 구간(Bottleneck)'이 어디인지 정확히 파악하고 있다.",
+          "팀 내 업무 분장이 모호하거나(Gray Zone), 관행적으로 행해지는 비효율적인 업무가 무엇인지 명확히 인지하고 있다.",
+          "팀원들의 업무 중 AI로 대체하거나 자동화하면 효율적인 '단순 반복 업무'가 무엇인지 구체적으로 구분할 수 있다.",
+          "우리 팀의 업무 자료(보고서, 데이터 등)가 AI 학습이나 참고용으로 쓰기에 적절한 형태로 관리되고 있는지 상태를 파악하고 있다.",
+          "AI가 아닌 '사람(팀원)'만이 발휘할 수 있는 우리 팀의 핵심 가치(통찰, 관계, 판단력 등)가 무엇인지 정의할 수 있다.",
+          "유관 부서와의 원활한 협업을 위해, 우리 팀 결과물이 갖춰야 할 형태와 품질 기준을 명확히 이해하고 있다."
         ]
       },
       {
         id: 'III',
         title: 'III. AI 협업 설계 및 통합 (AI Integration Strategy)',
         questions: [
-          "복잡한 과업을 통째로 맡기지 않고, AI가 수행할 부분과 사람이 수행할 부분으로 구분하여 업무를 재설계할 수 있다.",
-          "AI가 산출한 결과물이 실무에 투입되기 위해 갖춰야 할 구체적인 '합격 기준(품질, 완성도)'을 설정할 수 있다.",
-          "팀원에게 업무를 지시할 때, \"AI를 써봐\"라는 막연한 말 대신 \"이 보고서 목차 잡을 때 AI를 이렇게 활용해보라\"고 구체적인 시나리오를 제시한다.",
-          "특정 업무에 AI를 도입했을 때 기대되는 구체적인 효과(시간 단축, 품질 향상 등)를 수치나 정성적 지표로 예측할 수 있다.",
-          "팀원이 AI 활용에 실패했을 때, 원하는 결과를 얻기 위해 프롬프트를 어떻게 수정해야 하는지 피드백을 줄 수 있다.",
-          "우리 팀 업무 특성(보안 중요도, 창의성 필요도 등)을 고려하여 유료/무료 도구 중 무엇이 적합한지 판단할 수 있다."
+          "복잡한 과업을 통째로 맡기기보다, AI가 수행할 부분과 사람이 수행할 부분으로 나누어 업무를 배분할 수 있다.",
+          "AI 결과물이 실무에 투입되기 위해 갖춰야 할 구체적인 '합격 기준(품질, 완성도)'을 설정할 수 있다.",
+          "팀원에게 업무를 지시할 때, \"AI를 써봐\"라는 막연한 말 대신 \"이 단계에서 AI를 이렇게 활용해보라\"는 구체적인 가이드를 제시한다.",
+          "특정 업무에 AI를 도입했을 때 기대되는 효과(시간 단축, 품질 향상 등)를 수치나 정성적 지표로 예측할 수 있다.",
+          "팀원이 AI 활용에 어려움을 겪을 때, 원하는 결과를 얻기 위해 프롬프트를 어떻게 수정해야 하는지 피드백을 줄 수 있다.",
+          "우리 팀 업무 특성(보안, 창의성 등)을 고려하여 유료와 무료 도구 중 무엇이 더 적합한지 판단할 수 있다."
         ]
       },
       {
         id: 'IV',
         title: 'IV. 팀 문화 및 안전한 활용 리더십 (Culture & Practical Governance)',
         questions: [
-          "팀원들에게 AI 활용 시 주의해야 할 보안 원칙(기밀 유출 방지 등)과 데이터 가이드라인을 주기적으로 강조하고 있다.",
-          "우리 팀에는 AI를 사용할 때 지켜야 할 최소한의 약속(예: 결과물 교차 검증 필수)인 '그라운드 룰(Ground Rules)'이 있다(혹은 수립 중이다).",
-          "팀원이 AI를 시도하다가 실패하거나 엉뚱한 결과를 얻더라도, 질책하기보다 \"좋은 시도\"라고 격려하는 심리적 안전감을 조성하고 있다.",
-          "팀원들이 업무 중 발견한 유용한 AI 활용 팁이나 프롬프트를 서로 공유할 수 있는 시간이나 기회를 정기적으로 마련하고 있다.",
+          "AI 활용 시 주의해야 할 보안 원칙(기밀 유출 방지 등)과 데이터 가이드라인을 팀원들에게 주기적으로 강조한다.",
+          "우리 팀에는 AI 사용 시 지켜야 할 최소한의 약속(예: 결과물 교차 검증 필수)인 '그라운드 룰(Ground Rules)'이 있다(혹은 수립 중이다).",
+          "팀원이 AI를 시도하다 실패하더라도 질책하기보다, \"좋은 시도\"라며 격려하고 심리적 안전감을 조성한다.",
+          "팀원들이 업무 중 발견한 유용한 AI 활용 팁이나 프롬프트를 서로 공유할 수 있는 기회를 정기적으로 마련한다.",
           "AI가 작성한 문서에 편향된 내용이나 저작권 문제가 없는지, 최종 배포 전에 리더 차원에서 점검하는 절차를 두고 있다.",
-          "팀원이 유용한 AI 활용법을 동료들에게 공유했을 때, 이를 단순한 봉사가 아닌 '팀 생산성을 높인 성과'로 분명하게 인정하고 칭찬한다."
+          "팀원이 유용한 AI 활용법을 동료들에게 공유했을 때, 이를 단순한 봉사가 아닌 '팀 생산성을 높인 성과'로 인정하고 칭찬한다."
         ]
       }
     ];
@@ -293,32 +313,32 @@
     // === 3. 신규: 5단계 상세 피드백 데이터 (수정된 톤) ===
     const feedbackData = {
       'I': {
-        level_5: { title: "매우 우수 (AI 선도자)", message: "✅  리더로서 AI를 일상적·다양하게·정확히 활용하고 있으며, 팀원을 효과적으로 코칭할 준비가 되어 있습니다.\n\n🎯 교육을 통해, 팀 차원의 프롬프트 라이브러리를 구축하는 데 집중해 보세요." },
-        level_4: { title: "우수 (능숙한 실무자)", message: "✅  AI 도구를 개인 업무에 능숙하게 적용하고 있습니다. 검증과 재가공도 체계적입니다.\n\n🎯 교육을 통해, 팀원의 질문에 답변하고 본인의 성공 사례를 정리하는 '코칭 스킬'에 집중해 보세요." },
-        level_3: { title: "중상 (제한적 경험자)", message: "○ AI에 대한 기본 이해는 있으나, 활용이 제한적이거나 주로 단순 텍스트 생성 중심입니다.\n\n🎯 교육을 통해, 다양한 AI 기능(이미지, 분석, 번역 등)을 직접 경험하고 '활용의 폭'을 넓히는 데 집중해 보세요." },
-        level_2: { title: "중위 (개념 이해 단계)", message: "△ AI 개념은 이해하나 실제 업무 적용이 미흡합니다. 작은 성공부터 시작해야 합니다.\n\n🎯 교육을 통해, 1개 도구(예: ChatGPT)로 1개의 반복 업무를 개선해보는 '첫 성공'을 만드는 데 집중해 보세요." },
-        level_1: { title: "미흡 (경험 초기)", message: "✗  AI가 낯설거나 도구 사용 시 첫 시도 결과에 만족하지 못했을 수 있습니다.\n\n🎯 교육을 통해, AI에 대한 심리적 장벽을 낮추고 기초 실습을 완료하는 데 집중해 보세요." }
+        level_5: { title: "매우 우수 (AI 선도자)", message: "✅ 해석: 리더로서 AI를 일상적·다양하게·정확히 활용하고 있으며, 팀원을 효과적으로 코칭할 준비가 되어 있습니다.\n\n🎯 교육을 통해, 팀 차원의 프롬프트 라이브러리를 구축하는 데 집중해 보세요." },
+        level_4: { title: "우수 (능숙한 실무자)", message: "✅ 해석: AI 도구를 개인 업무에 능숙하게 적용하고 있습니다. 검증과 재가공도 체계적입니다.\n\n🎯 교육을 통해, 팀원의 질문에 답변하고 본인의 성공 사례를 정리하는 '코칭 스킬'에 집중해 보세요." },
+        level_3: { title: "중상 (제한적 경험자)", message: "✅ 해석: AI에 대한 기본 이해는 있으나, 활용이 제한적이거나 주로 단순 텍스트 생성 중심입니다.\n\n🎯 교육을 통해, 다양한 AI 기능(이미지, 분석, 번역 등)을 직접 경험하고 '활용의 폭'을 넓히는 데 집중해 보세요." },
+        level_2: { title: "중위 (개념 이해 단계)", message: "✅ 해석: AI 개념은 이해하나 실제 업무 적용이 미흡합니다. 작은 성공부터 시작해야 합니다.\n\n🎯 교육을 통해, 1개 도구(예: ChatGPT)로 1개의 반복 업무를 개선해보는 '첫 성공'을 만드는 데 집중해 보세요." },
+        level_1: { title: "미흡 (경험 초기)", message: "✅ 해석: AI가 낯설거나 도구 사용 시 첫 시도 결과에 만족하지 못했을 수 있습니다.\n\n🎯 교육을 통해, AI에 대한 심리적 장벽을 낮추고 기초 실습을 완료하는 데 집중해 보세요." }
       },
       'II': {
-        level_5: { title: "매우 우수 (프로세스 전략가)", message: "✅  팀의 전체 프로세스, 병목, 데이터 준비도를 명확히 파악하고 있으며, 유관부서와의 협업도 이해하고 있습니다. AI 도입 준비가 가장 견고한 상태입니다.\n\n🎯 교육을 통해, 조직 차원의 프로세스 표준화를 제안하는 방안을 구상하는 데 집중해 보세요." },
-        level_4: { title: "우수 (프로세스 분석가)", message: "✅  팀 프로세스의 주요 흐름과 병목 지점을 파악하고 있으며, 자동화 기회도 식별할 수 있습니다.\n\n🎯 교육을 통해, '로직트리' 실습 시 단순 분석을 넘어 '과감한 업무 삭제 및 AI 기반 자동화'를 구체적으로 설계하는 데 집중해 보세요." },
-        level_3: { title: "중상 (부분 인식 단계)", message: "○ 팀 업무의 대략적 흐름은 알지만, 구체적 병목 분석이나 데이터 준비도 평가가 부족합니다.\n\n🎯 이번 교육의 핵심인 '로직트리' 실습에 몰입하여, 머릿속의 프로세스를 시각화하고 '병목 구간'을 명확히 찾는 데 집중해 보세요." },
-        level_2: { title: "중위 (연결성 부족)", message: "△ 팀 업무를 단계별로는 인식하나, 전체 연결성이나 비효율 지점이 명확하지 않습니다.\n\n🎯 교육을 통해, \"가장 오래 걸리는 부분이 뭘까?\"를 분석하는 법을 배우고 '프로세스 맵핑' 기초를 다지는 데 집중해 보세요." },
-        level_1: { title: "미흡 (구조 파악 필요)", message: "✗  AI 도입 전에 먼저 팀 업무 자체의 구조를 파악해야 합니다. 프로세스 맵핑이 시급합니다.\n\n🎯 이번 교육이 AI 활용의 첫 단추입니다. 교육을 통해 '업무 프로세스 정리'의 중요성을 인지하고, 로직트리 작성 실습에 가장 집중해 보세요." }
+        level_5: { title: "매우 우수 (프로세스 전략가)", message: "✅ 해석: 팀의 전체 프로세스, 병목, 데이터 준비도를 명확히 파악하고 있으며, 유관부서와의 협업도 이해하고 있습니다. AI 도입 준비가 가장 견고한 상태입니다.\n\n🎯 교육을 통해, 조직 차원의 프로세스 표준화를 제안하는 방안을 구상하는 데 집중해 보세요." },
+        level_4: { title: "우수 (프로세스 분석가)", message: "✅ 해석: 팀 프로세스의 주요 흐름과 병목 지점을 파악하고 있으며, 자동화 기회도 식별할 수 있습니다.\n\n🎯 교육을 통해, '로직트리' 실습 시 단순 분석을 넘어 '과감한 업무 삭제 및 AI 기반 자동화'를 구체적으로 설계하는 데 집중해 보세요." },
+        level_3: { title: "중상 (부분 인식 단계)", message: "✅ 해석: 팀 업무의 대략적 흐름은 알지만, 구체적 병목 분석이나 데이터 준비도 평가가 부족합니다.\n\n🎯 이번 교육의 핵심인 '로직트리' 실습에 몰입하여, 머릿속의 프로세스를 시각화하고 '병목 구간'을 명확히 찾는 데 집중해 보세요." },
+        level_2: { title: "중위 (연결성 부족)", message: "✅ 해석: 팀 업무를 단계별로는 인식하나, 전체 연결성이나 비효율 지점이 명확하지 않습니다.\n\n🎯 교육을 통해, \"가장 오래 걸리는 부분이 뭘까?\"를 분석하는 법을 배우고 '프로세스 맵핑' 기초를 다지는 데 집중해 보세요." },
+        level_1: { title: "미흡 (구조 파악 필요)", message: "✅ 해석: AI 도입 전에 먼저 팀 업무 자체의 구조를 파악해야 합니다. 프로세스 맵핑이 시급합니다.\n\n🎯 이번 교육이 AI 활용의 첫 단추입니다. 교육을 통해 '업무 프로세스 정리'의 중요성을 인지하고, 로직트리 작성 실습에 가장 집중해 보세요." }
       },
       'III': {
-        level_5: { title: "매우 우수 (AI 협업 설계자)", message: "✅  팀 업무에서 AI와 인간의 역할을 명확히 분리하고, 성과 측정 기준도 정의할 수 있습니다. 팀원을 효과적으로 코칭할 준비가 되어 있습니다.\n\n🎯 교육을 통해, 조직 차원의 AI 협업 설계 모델을 수립하는 방안을 구상하는 데 집중해 보세요." },
-        level_4: { title: "우수 (시나리오 기획자)", message: "✅  구체적인 AI 적용 시나리오를 그릴 수 있으며, 팀원에게 명확한 지시와 피드백을 제공하고 있습니다.\n\n🎯 교육을 통해, 파일럿 프로젝트의 '성과 측정 지표(ROI)'를 어떻게 설정하고 개선 사이클을 운영할지 집중적으로 고민해 보세요." },
-        level_3: { title: "중상 (작업 분해 시도)", message: "○ 기본적인 작업 분해는 가능하나, 성과 측정이나 도구 선택이 아직 체계적이지 않습니다.\n\n🎯 교육을 통해, \"우리가 측정할 지표는 뭘까?\"부터 정의하는 법을 배우고 '성과 측정 기준' 수립에 집중해 보세요." },
-        level_2: { title: "중위 (적용 고민 단계)", message: "△ AI를 어디에 쓸지는 생각하지만, 구체적 지시나 팀원 지도 방법이 불명확합니다.\n\n🎯 교육을 통해, 'AI 협업 시나리오 작성' 세션에 집중하고 프롬프트 템플릿을 1개 완성해 보세요." },
-        level_1: { title: "미흡 (역할 분담 모호)", message: "✗  AI와 인간의 역할 분담을 어떻게 할지 막연합니다. 먼저 1개 업무로 간단히 시도해야 합니다.\n\n🎯 교육을 통해, 'AI가 할 일 vs 사람이 할 일'을 구분하는 기준을 명확히 배우는 데 집중해 보세요." }
+        level_5: { title: "매우 우수 (AI 협업 설계자)", message: "✅ 해석: 팀 업무에서 AI와 인간의 역할을 명확히 분리하고, 성과 측정 기준도 정의할 수 있습니다. 팀원을 효과적으로 코칭할 준비가 되어 있습니다.\n\n🎯 교육을 통해, 조직 차원의 AI 협업 설계 모델을 수립하는 방안을 구상하는 데 집중해 보세요." },
+        level_4: { title: "우수 (시나리오 기획자)", message: "✅ 해석: 구체적인 AI 적용 시나리오를 그릴 수 있으며, 팀원에게 명확한 지시와 피드백을 제공하고 있습니다.\n\n🎯 교육을 통해, 파일럿 프로젝트의 '성과 측정 지표(ROI)'를 어떻게 설정하고 개선 사이클을 운영할지 집중적으로 고민해 보세요." },
+        level_3: { title: "중상 (작업 분해 시도)", message: "✅ 해석: 기본적인 작업 분해는 가능하나, 성과 측정이나 도구 선택이 아직 체계적이지 않습니다.\n\n🎯 교육을 통해, \"우리가 측정할 지표는 뭘까?\"부터 정의하는 법을 배우고 '성과 측정 기준' 수립에 집중해 보세요." },
+        level_2: { title: "중위 (적용 고민 단계)", message: "✅ 해석: AI를 어디에 쓸지는 생각하지만, 구체적 지시나 팀원 지도 방법이 불명확합니다.\n\n🎯 교육을 통해, 'AI 협업 시나리오 작성' 세션에 집중하고 프롬프트 템플릿을 1개 완성해 보세요." },
+        level_1: { title: "미흡 (역할 분담 모호)", message: "✅ 해석: AI와 인간의 역할 분담을 어떻게 할지 막연합니다. 먼저 1개 업무로 간단히 시도해야 합니다.\n\n🎯 교육을 통해, 'AI가 할 일 vs 사람이 할 일'을 구분하는 기준을 명확히 배우는 데 집중해 보세요." }
       },
       'IV': {
-        level_5: { title: "매우 우수 (AI 문화 선도자)", message: "✅  팀 전체가 AI 활용에 대한 명확한 가이드를 인식하고 있으며, 심리적 안전감과 경험 공유 문화가 잘 형성되어 있습니다. 조직 확산의 모범 팀입니다.\n\n🎯 교육을 통해, 본인의 성공 사례를 바탕으로 '전사적 AI 정책'을 제안하는 방안을 구상해 보세요." },
-        level_4: { title: "우수 (안전한 조력자)", message: "✅  팀원이 AI 활용에 대해 신뢰할 수 있는 가이드라인을 받고 있으며, 작은 성공 경험을 공유하고 있습니다.\n\n🎯 교육을 통해, 정기적인 팀 피드백 미팅을 구조화하고 팀의 성공 사례를 '지식 자산화'하는 방법에 집중해 보세요." },
-        level_3: { title: "중상 (가이드라인 형성 중)", message: "○ 팀원이 기본적인 보안 가이드는 알고 있으나, 실패를 두려워하거나 팁 공유 기회가 부족합니다.\n\n🎯 교육을 통해, '우리 팀 그라운드 룰' 1~2개를 구체적으로 만들고 팀의 '심리적 안전감'을 높이는 리더의 커뮤니케이션 스킬에 집중해 보세요." },
-        level_2: { title: "중위 (방향성 고민)", message: "△ 팀에 대한 AI 가이드가 불명확하거나, 팀원의 우려에 체계적으로 대응하지 못하고 있습니다.\n\n🎯 교육을 통해, 팀원들의 불안감을 해소하는 'AI 도입 커뮤니케이션' 방법을 배우고 '사용 가이드 라인' 수립에 집중해 보세요." },
-        level_1: { title: "미흡 (문화 관리 필요)", message: "✗  팀원이 AI 변화에 불안감을 느끼거나, 리더의 입장이 명확하지 않습니다.\n\n🎯 교육을 통해, AI가 '위협'이 아닌 '도구'임을 팀에 전파하는 리더의 메시지에 집중하고 '안전한 활용 문화' 조성의 첫걸음을 떼 보세요." }
+        level_5: { title: "매우 우수 (AI 문화 선도자)", message: "✅ 해석: 팀 전체가 AI 활용에 대한 명확한 가이드를 인식하고 있으며, 심리적 안전감과 경험 공유 문화가 잘 형성되어 있습니다. 조직 확산의 모범 팀입니다.\n\n🎯 교육을 통해, 본인의 성공 사례를 바탕으로 '전사적 AI 정책'을 제안하는 방안을 구상해 보세요." },
+        level_4: { title: "우수 (안전한 조력자)", message: "✅ 해석: 팀원이 AI 활용에 대해 신뢰할 수 있는 가이드라인을 받고 있으며, 작은 성공 경험을 공유하고 있습니다.\n\n🎯 교육을 통해, 정기적인 팀 피드백 미팅을 구조화하고 팀의 성공 사례를 '지식 자산화'하는 방법에 집중해 보세요." },
+        level_3: { title: "중상 (가이드라인 형성 중)", message: "✅ 해석: 팀원이 기본적인 보안 가이드는 알고 있으나, 실패를 두려워하거나 팁 공유 기회가 부족합니다.\n\n🎯 교육을 통해, '우리 팀 그라운드 룰' 1~2개를 구체적으로 만들고 팀의 '심리적 안전감'을 높이는 리더의 커뮤니케이션 스킬에 집중해 보세요." },
+        level_2: { title: "중위 (방향성 고민)", message: "✅ 해석: 팀에 대한 AI 가이드가 불명확하거나, 팀원의 우려에 체계적으로 대응하지 못하고 있습니다.\n\n🎯 교육을 통해, 팀원들의 불안감을 해소하는 'AI 도입 커뮤니케이션' 방법을 배우고 '사용 가이드 라인' 수립에 집중해 보세요." },
+        level_1: { title: "미흡 (문화 관리 필요)", message: "✅ 해석: 팀원이 AI 변화에 불안감을 느끼거나, 리더의 입장이 명확하지 않습니다.\n\n🎯 교육을 통해, AI가 '위협'이 아닌 '도구'임을 팀에 전파하는 리더의 메시지에 집중하고 '안전한 활용 문화' 조성의 첫걸음을 떼 보세요." }
       }
     };
 
@@ -326,19 +346,19 @@
     const jobGroupFeedback = {
       'A': {
         title: "A. 전략/지원 그룹 (기획, 인사, 재무 등)",
-        message: "리더님의 직무는 방대한 데이터 처리와 반복 행정 업무가 많습니다. (핵심: 효율과 정확성)\nAI를 활용해 회의록 요약, 엑셀 데이터 분석, 규정 검토 등을 자동화하여 '반복 업무의 효율화'와 '높은 정확성'을 확보하는 데 집중해야 합니다.\n\n교육을 통해, 리더로서 '보안 가이드라인'을 명확히 세우는 것과 '프로세스 병목'을 찾아 행정 시간을 단축하는 실습에 집중해 보세요."
+        message: "리더님의 직무는 방대한 데이터 처리와 반복 행정 업무가 많습니다. (업무 핵심 키워드: <b>효율과 정확성</b>)\nAI를 활용해 회의록 요약, 엑셀 데이터 분석, 규정 검토 등을 자동화하여 '반복 업무의 효율화'와 '높은 정확성'을 확보하는 데 집중해야 합니다.\n\n교육을 통해, 리더로서 '보안 가이드라인'을 명확히 세우는 것과 '프로세스 병목'을 찾아 행정 시간을 단축하는 실습에 집중해 보세요."
       },
       'B': {
         title: "B. 고객 접점 그룹 (영업, 마케팅, CS 등)",
-        message: "리더님의 직무는 고객 설득과 콘텐츠 생성이 핵심입니다. (핵심: 창의와 개인화)\nAI를 '아이디어 파트너'로 삼아 카피라이팅, 제안서 초안, 이미지 생성 등 '콘텐츠 제작 속도'를 높이는 데 주력해야 합니다.\n\n교육을 통해, 리더로서 AI가 만든 결과물이 '브랜드 톤앤매너'에 맞는지, '거짓 정보(할루시네이션)'는 없는지 검증하는 '윤리적 활용'과 '다양한 도구 활용'에 집중해 보세요."
+        message: "리더님의 직무는 고객 설득과 콘텐츠 생성이 핵심입니다. (업무 핵심 키워드: <b>스토리텔링과 개인화</b>)\nAI를 '아이디어 파트너'로 삼아 카피라이팅, 제안서 초안, 이미지 생성 등 '콘텐츠 제작 속도'를 높이는 데 주력해야 합니다.\n\n교육을 통해, 리더로서 AI가 만든 결과물이 '브랜드 톤앤매너'에 맞는지, '거짓 정보(할루시네이션)'는 없는지 검증하는 '윤리적 활용'과 '다양한 도구 활용'에 집중해 보세요."
       },
       'C': {
         title: "C. 기술/제품 그룹 (개발, R&D, 설계 등)",
-        message: "리더님의 직무는 기술적 문제 해결과 제품 고도화가 중요합니다. (핵심: 전문성과 가속화)\nAI를 '전문 보조 연구원'으로 활용하여 코딩 보조(Copilot), 최신 논문 요약, 기술 트렌드 분석 등 'R&D 속도'를 높이는 데 집중하세요.\n\n교육을 통해, 'AI와 인간의 업무 분담'을 어떻게 설계할지, 그리고 AI가 생성한 코드나 설계의 '지식재산권(IP) 및 보안 취약점'을 리더로서 어떻게 가이드할지 집중해 보세요."
+        message: "리더님의 직무는 기술적 문제 해결과 제품 고도화가 중요합니다. (업무 핵심 키워드: <b>기술 전문성과 가속화</b>)\nAI를 '전문 보조 연구원'으로 활용하여 코딩 보조(Copilot), 최신 논문 요약, 기술 트렌드 분석 등 'R&D 속도'를 높이는 데 집중하세요.\n\n교육을 통해, 'AI와 인간의 업무 분담'을 어떻게 설계할지, 그리고 AI가 생성한 코드나 설계의 '지식재산권(IP) 및 보안 취약점'을 리더로서 어떻게 가이드할지 집중해 보세요."
       },
       'D': {
         title: "D. 현장/운영 그룹 (생산, 물류, 구매 등)",
-        message: "리더님의 직무는 현장 문제 해결과 공정 관리가 핵심입니다. (핵심: 안전과 최적화)\nAI를 활용해 자재 수급 예측, 설비 고장 시그널 파악, 현장 매뉴얼 검색 등을 자동화하여 '안전성'과 '운영 효율'을 높여야 합니다.\n\n현장직 팀원들이 AI를 '위협'으로 느낄 수 있습니다. 교육을 통해, AI가 '감시자'가 아닌 '안전 도우미'임을 강조하여 '심리적 저항감'을 낮추는 것과 '물리적 병목'을 데이터로 찾는 실습에 집중해 보세요."
+        message: "리더님의 직무는 현장 문제 해결과 공정 관리가 핵심입니다. (업무 핵심 키워드: <b>안전과 최적화</b>)\nAI를 활용해 자재 수급 예측, 설비 고장 시그널 파악, 현장 매뉴얼 검색 등을 자동화하여 '안전성'과 '운영 효율'을 높여야 합니다.\n\n현장직 팀원들이 AI를 '위협'으로 느낄 수 있습니다. 교육을 통해, AI가 '감시자'가 아닌 '안전 도우미'임을 강조하여 '심리적 저항감'을 낮추는 것과 '물리적 병목'을 데이터로 찾는 실습에 집중해 보세요."
       }
     };
 
@@ -352,6 +372,7 @@
     const jobSpecificFeedbackContent = document.getElementById('jobSpecificFeedbackContent');
     const restartButton = document.getElementById('restartButton');
     const goBackButton = document.getElementById('goBackButton'); 
+    const printButton = document.getElementById('printButton'); // [FIX] 프린트 버튼 DOM 요소 추가
     const statusMessage = document.getElementById('statusMessage');
 
     let currentResults = null;
@@ -515,8 +536,8 @@
            errorMessage += '네트워크 오류 또는 CORS 설정 오류일 수 있습니다.';
            console.error('Fetch Error:', error);
         } else if (error instanceof SyntaxError) { // JSON.parse() 실패
-            errorMessage += '서버 응답 형식이 올바르지 않습니다. (JSON 오류)';
-            console.error('JSON Parse Error:', error);
+           errorMessage += '서버 응답 형식이 올바르지 않습니다. (JSON 오류)';
+           console.error('JSON Parse Error:', error);
         } else {
           errorMessage += error.message;
         }
@@ -722,6 +743,8 @@
     // === 11. 신규: 결과 표시 로직 (수정 없음) ===
     function displayResults(results) {
       // 1. 종합 점수판 채우기
+      scoreSummary.className = "bg-white border-4 border-indigo-400 rounded-xl shadow-2xl p-4 sm:p-6 text-center mb-6 transition hover:shadow-xl avoid-break"; // 패딩 및 마진 축소, avoid-break 추가
+
       scoreSummary.innerHTML = `
         <div class="mb-4">
           <span class="inline-block px-4 py-1.5 rounded-full ${results.overallLevel.bgColor} ${results.overallLevel.color} font-bold text-base sm:text-lg">
@@ -744,40 +767,59 @@
         'IV': 'IV. 팀 문화 및 안전한 활용 리더십'
       };
 
+      // 단일 블록으로 생성 (구역을 실선으로 구분)
+      const feedbackList = document.createElement('div');
+      feedbackList.className = 'bg-white rounded-xl border border-gray-300 shadow-lg divide-y divide-gray-200 mt-6'; // margin-top 조정
+
       ['I', 'II', 'III', 'IV'].forEach(areaId => {
         const result = results[areaId];
-        const detailDiv = document.createElement('div');
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'p-4 sm:p-5 avoid-break'; // 패딩 축소, avoid-break 추가
         
-        let borderColor, bgColor, titleColor;
+        let titleColor, badgeColor, badgeBg;
         const level = result.feedback.title.substring(0, 2); // "매우" "우수" "중상" "중위" "미흡"
         
+        // 배경색 대신 텍스트/뱃지 색상으로 변경하여 깔끔하게 처리
         if (level === '매우' || level === '우수') {
-          borderColor = 'border-emerald-500'; bgColor = 'bg-emerald-50'; titleColor = 'text-emerald-800';
+          titleColor = 'text-emerald-700';
+          badgeBg = 'bg-emerald-100';
+          badgeColor = 'text-emerald-800';
         } else if (level === '중상') {
-          borderColor = 'border-sky-500'; bgColor = 'bg-sky-50'; titleColor = 'text-sky-800';
+          titleColor = 'text-sky-700';
+          badgeBg = 'bg-sky-100';
+          badgeColor = 'text-sky-800';
         } else if (level === '중위') {
-          borderColor = 'border-amber-500'; bgColor = 'bg-amber-50'; titleColor = 'text-amber-800';
+          titleColor = 'text-amber-700';
+          badgeBg = 'bg-amber-100';
+          badgeColor = 'text-amber-800';
         } else {
-          borderColor = 'border-rose-500'; bgColor = 'bg-rose-50'; titleColor = 'text-rose-800';
+          titleColor = 'text-rose-700';
+          badgeBg = 'bg-rose-100';
+          badgeColor = 'text-rose-800';
         }
 
-        detailDiv.className = `p-5 sm:p-6 rounded-xl border-l-4 ${borderColor} ${bgColor} shadow-md`;
-        detailDiv.innerHTML = `
-          <div class="flex justify-between items-start mb-3">
+        itemDiv.innerHTML = `
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2 gap-2"> <!-- mb-4 -> mb-2 -->
             <div>
-              <h3 class="text-xl sm:text-2xl font-extrabold ${titleColor} mb-1">
+              <h3 class="text-lg sm:text-xl font-bold text-gray-800">
                 ${areaTitles[areaId]}
               </h3>
-              <h4 class="text-lg sm:text-xl font-bold text-gray-900">${result.feedback.title}</h4>
+              <div class="flex items-center mt-1 gap-2">
+                 <span class="inline-block px-2 py-0.5 rounded text-sm font-bold ${badgeBg} ${badgeColor}">
+                    ${result.feedback.title}
+                 </span>
+              </div>
             </div>
-            <div class="text-2xl sm:text-3xl font-bold ${titleColor} whitespace-nowrap pl-4">
-              ${result.sum} <span class="text-base sm:text-lg text-gray-600 font-medium">/ ${result.max}점</span>
+            <div class="text-2xl font-bold text-gray-600 whitespace-nowrap">
+              ${result.sum} <span class="text-base text-gray-400 font-medium">/ ${result.max}점</span>
             </div>
           </div>
-          <p class="text-sm sm:text-base text-gray-700 leading-relaxed whitespace-pre-wrap">${result.feedback.message}</p>
+          <p class="text-base text-gray-700 leading-snug whitespace-pre-wrap">${result.feedback.message}</p> <!-- leading-relaxed -> leading-snug -->
         `;
-        feedbackDetails.appendChild(detailDiv);
+        feedbackList.appendChild(itemDiv);
       });
+      
+      feedbackDetails.appendChild(feedbackList);
 
       // 3. 직무별 맞춤 피드백 채우기
       const jobKey = results.jobGroup.key;
@@ -785,7 +827,7 @@
         const jobFeedback = jobGroupFeedback[jobKey];
         jobSpecificFeedbackContent.innerHTML = `
           <h4 class="text-xl sm:text-2xl font-bold text-indigo-900 mb-3">${jobFeedback.title}</h4>
-          <p class="text-sm sm:text-base text-indigo-800 leading-relaxed whitespace-pre-wrap">${jobFeedback.message}</p>
+          <p class="text-sm sm:text-base text-indigo-800 leading-snug whitespace-pre-wrap">${jobFeedback.message}</p> <!-- leading 추가 -->
         `;
         jobSpecificFeedback.classList.remove('hidden');
       } else {
@@ -825,6 +867,13 @@
       assessmentForm.addEventListener('submit', calculateAndDisplayResults);
       restartButton.addEventListener('click', restartAssessment); 
       goBackButton.addEventListener('click', goBackToSurvey);
+      
+      // [FIX] 프린트 버튼 이벤트 리스너 추가
+      if(printButton) {
+        printButton.addEventListener('click', () => {
+            window.print();
+        });
+      }
       
       // 🔧 페이지 로드 시 이전 백업 확인
       try {
